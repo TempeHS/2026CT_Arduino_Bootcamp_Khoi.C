@@ -18,11 +18,22 @@
     https://www.arduino.cc/reference/en/#variables
     https://www.arduino.cc/reference/en/language/variables/data-types/stringobject/
 */
+int myInt = 9600;
+int myIntValue = HIGH;
+String myString ("Hello World");
+float myFloatingPoints = 3.14;
+static unsigned long myUnsignedLong = 3.141592653589793;
+bool myValue = false;
 
 void setup() {
-  
+  Serial.begin(myInt);
+  Serial.print("Serial monitor is configured to ");
+  Serial.print(myInt);
+  Serial.println(" baud rate");
+  Serial.println("-------------");
+  Serial.print("Data stored: ");
+  Serial.println(myString);
 }
 
 void loop() {
-
 }
