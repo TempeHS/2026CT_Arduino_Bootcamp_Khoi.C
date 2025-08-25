@@ -22,12 +22,36 @@
     https://github.com/TempeHS/TempeHS_Ardunio_Bootcamp/blob/main/10.servoMotor/Bootcamp-servoMotor.png
 */
 
+// OLED screen components
+#include <Arduino.h>
+#include <U8g2lib.h>
+#include <SPI.h>
+#include <Wire.h>
+
 #include <Servo.h>
+#include "Ultrasonic.h"
+
+unsigned static int servoPIN = 6;
+unsigned static int ussPIN = 5;
+
+Servo myservo;
+Ultrasonic myUSS(ussPIN);
+
+int val;
+
+
 
 void setup() {
-  
+  Serial.begin(9600);
+  myservo.attach(servoPIN);
 }
 
 void loop() {
-  
+  unsigned long RangeInCm; // centimeters
+  RangeInCm = myUSS.distanceRead();
+  val = map(RangeInCm, 0, 357, 0 , 180);
+  myservo.write(val);
+  Serial.print(RangeInCm);
+  Serial.println(" cm");
+  delay(200);
 }

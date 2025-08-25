@@ -34,12 +34,28 @@
   Schematic: 
     
 */
+static unsigned int redLED = 6;
+static unsigned int onBoardLED = 13;
+static unsigned int buttonPIN = 4;
+static unsigned int potPIN = A1;
+bool onState = false;
 
 void setup() {
-  
+  Serial.begin(9600);
+  Serial.println("Serial monitor is configured to 9600 baud rate");
+  Serial.println("--------------------");
+  pinMode(redLED, OUTPUT);
+  pinMode(onBoardLED, OUTPUT);
+  pinMode(buttonPIN, INPUT);
 }
 
 void loop() {
-      
+  bool reading = digitalRead(buttonPIN);
+  if (reading == true) {
+    onState = !onState;
+  }
+
+  digitalWrite(redLED, onState);
+  delay(200);
 }
 

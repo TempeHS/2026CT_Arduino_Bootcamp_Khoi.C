@@ -21,12 +21,61 @@
     https://github.com/TempeHS/TempeHS_Ardunio_Bootcamp/blob/main/07.pulseWidthModulation/Bootcamp-PWMOutput.png
 */
 
+static unsigned int redLED = 6;
+static unsigned int onBoardLED = 13;
+static unsigned int buttonPIN = 4;
+static unsigned int potPIN = A1;
 
+unsigned long lastDebounceTime = 0;
+unsigned long debounceDelay = 100; // milliseconds
+int lastButtonState = LOW;
+int buttonState = LOW;
+bool onState = false;
 
 void setup() {
-  
+  Serial.begin(9600);
+  Serial.println("Serial monitor is configured to 9600 baud rate");
+  Serial.println("--------------------");
+  pinMode(redLED, OUTPUT);
+  pinMode(onBoardLED, OUTPUT);
+  pinMode(buttonPIN, INPUT);
 }
 
 void loop() {
+  int reading = digitalRead(buttonPIN);
   
+  if (reading != lastButtonState) {
+    lastDebounceTime = millis();
+  }
+
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    if(reading !=buttonState) {
+      buttonState = reading;
+
+      if (buttonState == HIGH) {
+        onState != onState;
+      }
+    }
+  }
+
+  if (reading == true) {
+    onState = !onState;
+  }
+
+  lastButtonState = reading;
+
+  unsigned int dimmer = analogRead(potPIN);
+  Serial.println(dimmer);
+  dimmer = map(dimmer,0, 1023, 0, 255);
+
+  if (onState) {
+    analogWrite(redLED, dimmer);
+    analogWrite(onBoardLED, dimmer);
+  } else {
+    analogWrite(redLED, false);
+    analogWrite(onBoardLED, false);
+  }
+  
+  delay(10);
 }
+// 
